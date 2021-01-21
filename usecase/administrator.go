@@ -6,6 +6,7 @@ import (
 	"github.com/dev-sota/clean-arch-with-caff/entity"
 	"github.com/dev-sota/clean-arch-with-caff/igateway"
 	"github.com/dev-sota/clean-arch-with-caff/iusecase"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type Administrator struct {
@@ -25,6 +26,11 @@ func (a *Administrator) List(ctx context.Context) ([]*entity.Administrator, erro
 }
 
 func (a *Administrator) Create(ctx context.Context, administrator *entity.Administrator) error {
+	hash, err := bcrypt.GenerateFromPassword([]byte(administrator.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+	administrator.Password = string(hash)
 	return a.administratorGateway.Create(ctx, administrator)
 }
 
