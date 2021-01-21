@@ -2,13 +2,14 @@ package controller
 
 import (
 	"context"
-	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
+
+	"github.com/dev-sota/clean-arch-with-caff/entity"
 	"github.com/dev-sota/clean-arch-with-caff/icontroller"
 	"github.com/dev-sota/clean-arch-with-caff/infrastructure"
 	"github.com/dev-sota/clean-arch-with-caff/iusecase"
-	"github.com/dev-sota/clean-arch-with-caff/entity"
 	"github.com/dev-sota/clean-arch-with-caff/utils"
+	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
 )
 
 type User struct {
@@ -16,7 +17,7 @@ type User struct {
 }
 
 func NewUser(userUsecase iusecase.User) icontroller.User {
-	return &User{ userUsecase: userUsecase }
+	return &User{userUsecase: userUsecase}
 }
 
 func (u *User) Get(ic context.Context) {

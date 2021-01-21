@@ -2,8 +2,9 @@ package gateway
 
 import (
 	"context"
-	"github.com/dev-sota/clean-arch-with-caff/igateway"
+
 	"github.com/dev-sota/clean-arch-with-caff/entity"
+	"github.com/dev-sota/clean-arch-with-caff/igateway"
 	"github.com/dev-sota/clean-arch-with-caff/utils"
 )
 

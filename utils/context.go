@@ -2,6 +2,7 @@ package utils
 
 import (
 	"context"
+
 	"github.com/dev-sota/clean-arch-with-caff/consts"
 
 	"github.com/jinzhu/gorm"

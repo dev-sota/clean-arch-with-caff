@@ -2,9 +2,10 @@ package usecase
 
 import (
 	"context"
+
+	"github.com/dev-sota/clean-arch-with-caff/entity"
 	"github.com/dev-sota/clean-arch-with-caff/igateway"
 	"github.com/dev-sota/clean-arch-with-caff/iusecase"
-	"github.com/dev-sota/clean-arch-with-caff/entity"
 )
 
 type User struct {
@@ -12,7 +13,7 @@ type User struct {
 }
 
 func NewUser(userGateway igateway.User) iusecase.User {
-	return &User{ userGateway: userGateway }
+	return &User{userGateway: userGateway}
 }
 
 func (u *User) Get(ctx context.Context, id string) (*entity.User, error) {
