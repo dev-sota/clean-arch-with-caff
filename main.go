@@ -24,6 +24,16 @@ func main() {
 
 	r := gin.Default()
 
+	administratorGateway := gateway.NewAdministrator()
+	administratorUsecase := usecase.NewAdministrator(administratorGateway)
+	administratorController := controller.NewAdministrator(administratorUsecase)
+	administratorRooter := r.Group("administrators")
+	administratorRooter.GET("", toGin(administratorController.List))
+	administratorRooter.GET(":id", toGin(administratorController.Get))
+	administratorRooter.POST("", toGin(administratorController.Post))
+	administratorRooter.PUT(":id", toGin(administratorController.Put))
+	administratorRooter.DELETE(":id", toGin(administratorController.Delete))
+
 	userGateway := gateway.NewUser()
 	userUsecase := usecase.NewUser(userGateway)
 	userController := controller.NewUser(userUsecase)
