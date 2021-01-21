@@ -3,14 +3,15 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	_ "github.com/go-sql-driver/mysql"
+	"os"
+
 	"github.com/dev-sota/clean-arch-with-caff/controller"
 	"github.com/dev-sota/clean-arch-with-caff/gateway"
 	"github.com/dev-sota/clean-arch-with-caff/infrastructure"
 	"github.com/dev-sota/clean-arch-with-caff/model"
 	"github.com/dev-sota/clean-arch-with-caff/usecase"
-	"os"
+	"github.com/gin-gonic/gin"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
