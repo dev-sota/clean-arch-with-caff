@@ -7,9 +7,6 @@ import (
 )
 
 type Administrator interface {
-	Get(ctx context.Context, id string) (*entity.Administrator, error)
-	List(ctx context.Context) ([]*entity.Administrator, error)
 	Create(ctx context.Context, administrator *entity.Administrator) error
-	Update(ctx context.Context, administrator *entity.Administrator) error
-	Delete(ctx context.Context, id string) error
+	GetByEmail(ctx context.Context, email string) (*entity.Administrator, error)
 }

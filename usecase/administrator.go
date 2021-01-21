@@ -17,14 +17,6 @@ func NewAdministrator(administratorGateway igateway.Administrator) iusecase.Admi
 	return &Administrator{administratorGateway: administratorGateway}
 }
 
-func (a *Administrator) Get(ctx context.Context, id string) (*entity.Administrator, error) {
-	return a.administratorGateway.Get(ctx, id)
-}
-
-func (a *Administrator) List(ctx context.Context) ([]*entity.Administrator, error) {
-	return a.administratorGateway.List(ctx)
-}
-
 func (a *Administrator) Create(ctx context.Context, administrator *entity.Administrator) error {
 	hash, err := bcrypt.GenerateFromPassword([]byte(administrator.Password), bcrypt.DefaultCost)
 	if err != nil {
@@ -34,10 +26,11 @@ func (a *Administrator) Create(ctx context.Context, administrator *entity.Admini
 	return a.administratorGateway.Create(ctx, administrator)
 }
 
-func (a *Administrator) Update(ctx context.Context, administrator *entity.Administrator) error {
-	return a.administratorGateway.Update(ctx, administrator)
-}
-
-func (a *Administrator) Delete(ctx context.Context, id string) error {
-	return a.administratorGateway.Delete(ctx, id)
+func (a *Administrator) Authentication(ctx context.Context, administrator *entity.Administrator) error {
+	res, err := a.administratorGateway.GetByEmail(ctx, administrator.Email)
+	if err != nil {
+		return err
+	}
+	err = bcrypt.CompareHashAndPassword([]byte(res.Password), []byte(administrator.Password))
+	return err
 }

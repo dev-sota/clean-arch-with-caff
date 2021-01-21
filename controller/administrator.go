@@ -20,46 +20,6 @@ func NewAdministrator(administratorUsecase iusecase.Administrator) icontroller.A
 	return &Administrator{administratorUsecase: administratorUsecase}
 }
 
-func (a *Administrator) Get(ic context.Context) {
-	gc, ok := ic.(*gin.Context)
-	if !ok {
-		gc.JSON(500, gin.H{
-			"message": "failed to get *gin.Context",
-		})
-		return
-	}
-
-	ctx := utils.ContextWithDB(gc, infrastructure.GetDB())
-	administrator, err := a.administratorUsecase.Get(ctx, gc.Param("id"))
-	if err != nil {
-		gc.JSON(500, gin.H{
-			"message": err.Error(),
-		})
-		return
-	}
-	gc.JSON(200, administrator)
-}
-
-func (a *Administrator) List(ic context.Context) {
-	gc, ok := ic.(*gin.Context)
-	if !ok {
-		gc.JSON(500, gin.H{
-			"message": "failed to get *gin.Context",
-		})
-		return
-	}
-
-	ctx := utils.ContextWithDB(gc, infrastructure.GetDB())
-	administrators, err := a.administratorUsecase.List(ctx)
-	if err != nil {
-		gc.JSON(500, gin.H{
-			"message": err.Error(),
-		})
-		return
-	}
-	gc.JSON(200, administrators)
-}
-
 func (a *Administrator) Post(ic context.Context) {
 	gc, ok := ic.(*gin.Context)
 	if !ok {
@@ -92,7 +52,7 @@ func (a *Administrator) Post(ic context.Context) {
 	})
 }
 
-func (a *Administrator) Put(ic context.Context) {
+func (a *Administrator) Login(ic context.Context) {
 	gc, ok := ic.(*gin.Context)
 	if !ok {
 		gc.JSON(500, gin.H{
@@ -111,7 +71,7 @@ func (a *Administrator) Put(ic context.Context) {
 
 	err := infrastructure.GetDB().Transaction(func(tx *gorm.DB) error {
 		ctx := utils.ContextWithDB(gc, tx)
-		return a.administratorUsecase.Update(ctx, &administrator)
+		return a.administratorUsecase.Authentication(ctx, &administrator)
 	})
 	if err != nil {
 		gc.JSON(500, gin.H{
@@ -119,31 +79,7 @@ func (a *Administrator) Put(ic context.Context) {
 		})
 		return
 	}
-	gc.JSON(200, gin.H{
-		"message": "updated",
-	})
-}
-
-func (a *Administrator) Delete(ic context.Context) {
-	gc, ok := ic.(*gin.Context)
-	if !ok {
-		gc.JSON(500, gin.H{
-			"message": "failed to get *gin.Context",
-		})
-		return
-	}
-
-	err := infrastructure.GetDB().Transaction(func(tx *gorm.DB) error {
-		ctx := utils.ContextWithDB(gc, tx)
-		return a.administratorUsecase.Delete(ctx, gc.Param("id"))
-	})
-	if err != nil {
-		gc.JSON(500, gin.H{
-			"message": err.Error(),
-		})
-		return
-	}
-	gc.JSON(200, gin.H{
-		"message": "deleted",
+	gc.JSON(201, gin.H{
+		"message": "authorized",
 	})
 }

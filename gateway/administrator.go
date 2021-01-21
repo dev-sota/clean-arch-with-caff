@@ -17,28 +17,6 @@ func NewAdministrator() igateway.Administrator {
 	return &Administrator{}
 }
 
-// Get .
-func (a *Administrator) Get(ctx context.Context, id string) (*entity.Administrator, error) {
-	db, err := utils.GetDBFromContext(ctx)
-	if err != nil {
-		return nil, err
-	}
-	result := &entity.Administrator{}
-	err = db.Where("id = ?", id).First(result).Error
-	return result, err
-}
-
-// List .
-func (a *Administrator) List(ctx context.Context) ([]*entity.Administrator, error) {
-	db, err := utils.GetDBFromContext(ctx)
-	if err != nil {
-		return nil, err
-	}
-	var result []*entity.Administrator
-	err = db.Find(&result).Error
-	return result, err
-}
-
 // Create .
 func (a *Administrator) Create(ctx context.Context, administrator *entity.Administrator) error {
 	db, err := utils.GetDBFromContext(ctx)
@@ -48,20 +26,13 @@ func (a *Administrator) Create(ctx context.Context, administrator *entity.Admini
 	return db.Create(administrator).Error
 }
 
-// Update .
-func (a *Administrator) Update(ctx context.Context, administrator *entity.Administrator) error {
+// GetByEmail .
+func (a *Administrator) GetByEmail(ctx context.Context, email string) (*entity.Administrator, error) {
 	db, err := utils.GetDBFromContext(ctx)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return db.Update(administrator).Error
-}
-
-// Delete .
-func (a *Administrator) Delete(ctx context.Context, id string) error {
-	db, err := utils.GetDBFromContext(ctx)
-	if err != nil {
-		return err
-	}
-	return db.Where("id = ?", id).Delete(&entity.Administrator{}).Error
+	result := &entity.Administrator{}
+	err = db.Where("email = ?", email).First(result).Error
+	return result, err
 }
